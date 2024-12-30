@@ -42,7 +42,10 @@ def parse_input(input_str: str) -> dict:
                 int_value = int(value)
                 if int_value < 0:
                     raise ValueError(f"Invalid negative value for {key}: {int_value}.")
-                input_dict[key.upper()] = int_value
+                if key == 'sibsp':
+                    input_dict['SibSp'] = int_value  # Explicitly map to 'SibSp'
+                else:
+                    input_dict[key.capitalize()] = int_value  # 'parch' maps to 'Parch'
             else:
                 logging.warning(f"Unrecognized feature '{key}' is being ignored.")
         except ValueError as ve:
@@ -57,7 +60,7 @@ def parse_input(input_str: str) -> dict:
     for feature in required_features:
         if feature not in input_dict:
             if feature in ['Age', 'Fare']:
-                # Example: Assign median values; replace with actual median as per your dataset
+                # Assign median values; replace with actual median as per your dataset
                 default_value = 30.0 if feature == 'Age' else 32.2042
                 input_dict[feature] = default_value
                 logging.info(f"Missing '{feature}' assigned default value: {input_dict[feature]}")

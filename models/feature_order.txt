@@ -1,0 +1,7 @@
+Pclass
+Sex
+Age
+SibSp
+Parch
+Fare
+Embarked

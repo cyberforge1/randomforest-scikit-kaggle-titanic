@@ -13,6 +13,10 @@ def setup_logging():
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
 
+    # Remove any existing handlers to prevent duplicate logs
+    if logger.hasHandlers():
+        logger.handlers.clear()
+
     # Formatter for log messages
     formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
 
@@ -124,6 +128,18 @@ def train_model():
         print(f"Trained model saved to {model_path}.")
     except Exception as e:
         logging.exception("Error saving the trained model.")
+        raise e
+
+    # Save the feature order to a file
+    try:
+        feature_order = list(X.columns)
+        feature_order_save_path = os.path.join(model_dir, "feature_order.txt")
+        with open(feature_order_save_path, 'w') as f:
+            for feature in feature_order:
+                f.write(f"{feature}\n")
+        logging.info(f"Feature order saved to {feature_order_save_path}.")
+    except Exception as e:
+        logging.exception("Error saving the feature order.")
         raise e
 
     logging.info("=== Model Training Pipeline Completed Successfully ===")
