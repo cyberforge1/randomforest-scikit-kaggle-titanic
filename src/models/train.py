@@ -70,6 +70,13 @@ def train_model():
             X, y, test_size=0.2, random_state=42, stratify=y
         )
         logging.info(f"Data split complete. Training samples: {X_train.shape[0]}, Validation samples: {X_val.shape[0]}")
+
+        # Save the validation set with labels
+        validation_data = X_val.copy()
+        validation_data['Survived'] = y_val
+        validation_save_path = os.path.join(processed_data_path, "validation_set.csv")
+        validation_data.to_csv(validation_save_path, index=False)
+        logging.info(f"Validation set saved to {validation_save_path}.")
     except Exception as e:
         logging.exception("Failed to split data into training and validation sets.")
         raise e

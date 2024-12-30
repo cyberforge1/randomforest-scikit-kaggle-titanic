@@ -20,6 +20,9 @@ python src/data/preprocess.py
 ## Train the Model
 python -m src.models.train
 
+# Test Error
+python -m src.models.evaluate_error_rate --test-data "data/processed/validation_set.csv"
+
 
 ## Interact with the Model (CLI)
 python main.py --input "age=22,sex=female,class=3"
